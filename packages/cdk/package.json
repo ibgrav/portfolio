@@ -1,0 +1,18 @@
+{
+  "name": "cdk",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "cdk:deploy": "node -r dotenv/config dist/deploy.js"
+  },
+  "devDependencies": {
+    "@types/node": "18.14.0",
+    "aws-cdk": "2.65.0",
+    "aws-cdk-lib": "2.65.0",
+    "constructs": "10.1.255",
+    "dotenv": "16.0.3",
+    "typescript": "4.9.5",
+    "zx": "7.1.1"
+  }
+}
