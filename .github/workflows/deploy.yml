@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - run: corepack enable
-      - run: corepack install
+      - run: corepack prepare --activate
 
       - run: pnpm install --frozen-lockfile
 
