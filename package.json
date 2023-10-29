@@ -1,6 +1,7 @@
 {
   "name": "@ibgrav/portfolio",
   "packageManager": "pnpm@8.10.0",
+  "license": "UNLICENSED",
   "type": "module",
   "private": true,
   "scripts": {
