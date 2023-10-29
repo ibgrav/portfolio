@@ -1,5 +1,6 @@
 {
   "name": "@ibgrav/portfolio",
+  "packageManager": "pnpm@8.10.0",
   "type": "module",
   "private": true,
   "scripts": {
