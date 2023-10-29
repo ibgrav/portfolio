@@ -9,6 +9,6 @@ const account = process.env.AWS_ACCOUNT;
 
 if (!region || !account) throw new Error(`Missing AWS_REGION or AWS_ACCOUNT`);
 
-new CdkStack(app, "CdkStack", {
+new CdkStack(app, "PortfolioStack", {
   env: { region, account }
 });
