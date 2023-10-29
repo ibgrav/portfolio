@@ -1,3 +1,0 @@
-{
-  "app": "node -r dotenv/config dist/cdk.js"
-}

@@ -6,9 +6,7 @@ node_modules
 
 # Artifacts
 dist
-.cdk.staging
-cdk.out
 
 # Env
 *.env*
-!.env-example
+!.env.example
