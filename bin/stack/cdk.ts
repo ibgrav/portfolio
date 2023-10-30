@@ -4,11 +4,10 @@ import { PortfolioStack } from "./portfolio-stack.js";
 
 const app = new cdk.App();
 
-const region = process.env.AWS_REGION;
-const account = process.env.AWS_ACCOUNT;
-
-if (!region || !account) throw new Error(`Missing AWS_REGION or AWS_ACCOUNT`);
-
 new PortfolioStack(app, "PortfolioStack", {
-  env: { region, account }
+  domainName: process.env.DOMAIN_NAME!,
+  env: {
+    region: process.env.AWS_REGION!,
+    account: process.env.AWS_ACCOUNT!
+  }
 });

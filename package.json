@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "cdk": "cdk",
-    "dev": "ts-node src/node.ts",
+    "dev": "ts-node bin/handlers/node.ts",
     "build": "pnpm build:client && pnpm build:server",
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --outDir dist/server --ssr bin/handlers/lambda.ts"
