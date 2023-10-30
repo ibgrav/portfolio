@@ -9,9 +9,7 @@ export class PortfolioStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const bucket = new cdk.aws_s3.Bucket(this, name("Bucket"), {
-      accessControl: cdk.aws_s3.BucketAccessControl.PUBLIC_READ
-    });
+    const bucket = new cdk.aws_s3.Bucket(this, name("Bucket"));
 
     new cdk.aws_s3_deployment.BucketDeployment(this, name("BucketDeployment"), {
       sources: [cdk.aws_s3_deployment.Source.asset(dist)],
