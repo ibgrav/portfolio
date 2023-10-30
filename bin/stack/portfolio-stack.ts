@@ -27,12 +27,16 @@ export class PortfolioStack extends Stack {
     if (!props?.env?.region) throw new Error("env region is required");
     if (!props?.env?.account) throw new Error("env account is required");
 
+    /* STATIC ASSETS */
+
     const bucket = new s3.Bucket(this, name("Bucket"));
 
     new s3Deployment.BucketDeployment(this, name("BucketDeployment"), {
       sources: [s3Deployment.Source.asset(dist)],
       destinationBucket: bucket
     });
+
+    /* LAMBDA FUNCTION */
 
     const fn = new NodejsFunction(this, name("Function"), {
       handler: "handler",
@@ -46,6 +50,8 @@ export class PortfolioStack extends Stack {
 
     const gateway = new api.LambdaRestApi(this, name("Api"), { handler: fn });
 
+    /* DOMAIN NAME */
+
     const zone = new route53.HostedZone(this, "HostedZone", {
       zoneName: props.domainName
     });
@@ -54,6 +60,8 @@ export class PortfolioStack extends Stack {
       domainName: props.domainName,
       validation: acm.CertificateValidation.fromDns(zone)
     });
+
+    /* CLOUDFRONT */
 
     new cloudfront.Distribution(this, name("Distribution"), {
       httpVersion: cloudfront.HttpVersion.HTTP2_AND_3,

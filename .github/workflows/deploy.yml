@@ -34,3 +34,4 @@ jobs:
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
+          DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
