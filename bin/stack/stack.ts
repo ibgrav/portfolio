@@ -18,21 +18,15 @@ export class PortfolioStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
 
-    /* RUNTIME */
-
     const fn = new NodejsFunction(this, name("Function"), {
       handler: "handler",
       entry: "dist/server/lambda.js",
       runtime: lambda.Runtime.NODEJS_18_X
     });
 
-    fn.addFunctionUrl({
+    const { url } = fn.addFunctionUrl({
       authType: lambda.FunctionUrlAuthType.NONE
     });
-
-    const gateway = new api.LambdaRestApi(this, name("Api"), { handler: fn });
-
-    /* NETWORK */
 
     const zone = new route53.HostedZone(this, "HostedZone", {
       zoneName: props.domainName
@@ -49,7 +43,7 @@ export class PortfolioStack extends Stack {
       priceClass: cloudfront.PriceClass.PRICE_CLASS_100,
       httpVersion: cloudfront.HttpVersion.HTTP2_AND_3,
       defaultBehavior: {
-        origin: new origins.RestApiOrigin(gateway)
+        origin: new origins.HttpOrigin(url)
       }
     });
 
@@ -57,8 +51,6 @@ export class PortfolioStack extends Stack {
       zone: zone,
       target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution))
     });
-
-    /* ASSETS */
 
     const bucket = new s3.Bucket(this, name("Bucket"), {
       removalPolicy: RemovalPolicy.DESTROY
