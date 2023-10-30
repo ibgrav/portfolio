@@ -68,7 +68,7 @@ export class PortfolioStack extends Stack {
       sources: [s3Deployment.Source.asset(dist)],
       destinationBucket: bucket,
       distribution,
-      distributionPaths: ["*"] // cache invalidation
+      distributionPaths: ["/*"] // cache invalidation
     });
   }
 }
