@@ -1,6 +1,6 @@
 import { join } from "path";
 import type { Construct } from "constructs";
-import { CfnOutput, RemovalPolicy, Stack, aws_route53_targets as targets } from "aws-cdk-lib";
+import { CfnOutput, Fn, RemovalPolicy, Stack, aws_route53_targets as targets } from "aws-cdk-lib";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as api from "aws-cdk-lib/aws-apigateway";
@@ -22,18 +22,14 @@ export class PortfolioStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY
     });
 
-    const fn = new NodejsFunction(this, name("Function"), {
+    const func = new NodejsFunction(this, name("Function"), {
       handler: "handler",
       entry: "dist/server/lambda.js",
       runtime: lambda.Runtime.NODEJS_18_X
     });
 
-    const fnUrl = fn.addFunctionUrl({
+    const funcUrl = func.addFunctionUrl({
       authType: lambda.FunctionUrlAuthType.NONE
-    });
-
-    new CfnOutput(this, name("FunctionUrl"), {
-      value: fnUrl.url
     });
 
     const zone = new route53.HostedZone(this, "HostedZone", {
@@ -51,8 +47,7 @@ export class PortfolioStack extends Stack {
       priceClass: cloudfront.PriceClass.PRICE_CLASS_100,
       httpVersion: cloudfront.HttpVersion.HTTP2_AND_3,
       defaultBehavior: {
-        // origin: new origins.HttpOrigin(fnUrl.url.replace("http://", ""))
-        origin: new origins.S3Origin(bucket)
+        origin: new origins.HttpOrigin(Fn.select(2, Fn.split("/", funcUrl.url)))
       },
       additionalBehaviors: {
         "/assets/*": {
