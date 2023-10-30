@@ -2,14 +2,16 @@ import { join } from "path";
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 
-const name = (tag: string) => "Portfolio" + tag;
 const dist = join(process.cwd(), "dist");
+const name = (tag: string) => "Portfolio" + tag;
 
 export class PortfolioStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const bucket = new cdk.aws_s3.Bucket(this, name("Bucket"));
+    const bucket = new cdk.aws_s3.Bucket(this, name("Bucket"), {
+      accessControl: cdk.aws_s3.BucketAccessControl.PUBLIC_READ
+    });
 
     new cdk.aws_s3_deployment.BucketDeployment(this, name("BucketDeployment"), {
       sources: [cdk.aws_s3_deployment.Source.asset(dist)],
