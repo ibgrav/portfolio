@@ -16,6 +16,8 @@
 
     "noEmit": true,
     "strict": true,
-    "noUncheckedIndexedAccess": true
+    "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": true,
+    "allowSyntheticDefaultImports": true
   }
 }

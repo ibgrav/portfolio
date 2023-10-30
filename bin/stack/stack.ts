@@ -1,6 +1,6 @@
 import { join } from "path";
 import type { Construct } from "constructs";
-import { CfnOutput, RemovalPolicy, Stack, aws_route53_targets as targets } from "aws-cdk-lib";
+import { RemovalPolicy, Stack, aws_route53_targets as targets } from "aws-cdk-lib";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as api from "aws-cdk-lib/aws-apigateway";
@@ -18,7 +18,7 @@ export class PortfolioStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
 
-    /* STATIC ASSETS */
+    /* ASSETS */
 
     const bucket = new s3.Bucket(this, name("Bucket"), {
       removalPolicy: RemovalPolicy.DESTROY
@@ -29,7 +29,7 @@ export class PortfolioStack extends Stack {
       destinationBucket: bucket
     });
 
-    /* LAMBDA FUNCTION */
+    /* RUNTIME */
 
     const fn = new NodejsFunction(this, name("Function"), {
       handler: "handler",
@@ -43,7 +43,7 @@ export class PortfolioStack extends Stack {
 
     const gateway = new api.LambdaRestApi(this, name("Api"), { handler: fn });
 
-    /* CLOUDFRONT */
+    /* NETWORK */
 
     const zone = new route53.HostedZone(this, "HostedZone", {
       zoneName: props.domainName
@@ -64,14 +64,9 @@ export class PortfolioStack extends Stack {
       }
     });
 
-    const record = new route53.ARecord(this, name("ARecord"), {
+    new route53.ARecord(this, name("ARecord"), {
       zone: zone,
       target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution))
-    });
-
-    new CfnOutput(this, name("OutputDomainName"), {
-      value: record.domainName,
-      exportName: "aRecordDomainName"
     });
   }
 }

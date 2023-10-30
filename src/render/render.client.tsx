@@ -1,6 +1,6 @@
-import { hydrateRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import { render } from "./render";
 
 const root = document.getElementById("root")!;
 
-hydrateRoot(root, render());
+createRoot(root).render(render());

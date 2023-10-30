@@ -6,10 +6,10 @@
   "private": true,
   "scripts": {
     "cdk": "cdk",
-    "dev": "ts-node bin/handlers/node.ts",
+    "dev": "ts-node bin/entry/dev.ts",
     "build": "pnpm build:client && pnpm build:server",
-    "build:client": "vite build --outDir dist/client",
-    "build:server": "vite build --outDir dist/server --ssr bin/handlers/lambda.ts"
+    "build:client": "vite build --outDir dist/client --manifest",
+    "build:server": "vite build --outDir dist/server --ssr bin/entry/lambda.ts"
   },
   "dependencies": {
     "hono": "3.9.0",

@@ -1,12 +1,22 @@
 import { Hono } from "hono";
+import type { Manifest } from "vite";
 import type { ApiGatewayRequestContext } from "hono/aws-lambda";
+import { document } from "./document";
 
 type Bindings = {
   requestContext?: ApiGatewayRequestContext;
 };
 
-const app = new Hono<{ Bindings: Bindings }>();
+interface ServerProps {
+  manifest: Manifest;
+}
 
-app.get("*", (c) => c.json(c));
+export function createServer({ manifest }: ServerProps) {
+  const server = new Hono<{ Bindings: Bindings }>();
 
-export { app };
+  server.get("/debug", (c) => c.json(c));
+
+  server.get("/", (c) => c.html(document(manifest)));
+
+  return server;
+}
