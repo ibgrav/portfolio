@@ -6,10 +6,21 @@
   "private": true,
   "scripts": {
     "cdk": "cdk",
-    "build": "vite build"
+    "dev": "ts-node src/node.ts",
+    "build": "pnpm build:client && pnpm build:server",
+    "build:client": "vite build --outDir dist/client",
+    "build:server": "vite build --outDir dist/server --ssr bin/handlers/lambda.ts"
+  },
+  "dependencies": {
+    "hono": "3.9.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@hono/node-server": "1.2.0",
     "@types/node": "20.8.9",
+    "@types/react": "18.2.33",
+    "@types/react-dom": "18.2.14",
     "aws-cdk": "2.103.1",
     "aws-cdk-lib": "2.103.1",
     "constructs": "10.3.0",
