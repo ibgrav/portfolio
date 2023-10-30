@@ -43,7 +43,7 @@ export class PortfolioStack extends Stack {
       priceClass: cloudfront.PriceClass.PRICE_CLASS_100,
       httpVersion: cloudfront.HttpVersion.HTTP2_AND_3,
       defaultBehavior: {
-        origin: new origins.HttpOrigin(url)
+        origin: new origins.HttpOrigin(url.replace("https://", ""))
       }
     });
 
