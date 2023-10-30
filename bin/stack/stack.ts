@@ -18,17 +18,6 @@ export class PortfolioStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
 
-    /* ASSETS */
-
-    const bucket = new s3.Bucket(this, name("Bucket"), {
-      removalPolicy: RemovalPolicy.DESTROY
-    });
-
-    new s3Deployment.BucketDeployment(this, name("BucketDeployment"), {
-      sources: [s3Deployment.Source.asset(dist)],
-      destinationBucket: bucket
-    });
-
     /* RUNTIME */
 
     const fn = new NodejsFunction(this, name("Function"), {
@@ -67,6 +56,19 @@ export class PortfolioStack extends Stack {
     new route53.ARecord(this, name("ARecord"), {
       zone: zone,
       target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution))
+    });
+
+    /* ASSETS */
+
+    const bucket = new s3.Bucket(this, name("Bucket"), {
+      removalPolicy: RemovalPolicy.DESTROY
+    });
+
+    new s3Deployment.BucketDeployment(this, name("BucketDeployment"), {
+      sources: [s3Deployment.Source.asset(dist)],
+      destinationBucket: bucket,
+      distribution,
+      distributionPaths: ["*"] // cache invalidation
     });
   }
 }
