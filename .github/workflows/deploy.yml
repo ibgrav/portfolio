@@ -21,6 +21,7 @@ jobs:
       - run: corepack prepare --activate
 
       - run: pnpm install --frozen-lockfile
+      - run: pnpm build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
