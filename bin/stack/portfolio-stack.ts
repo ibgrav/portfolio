@@ -23,7 +23,7 @@ export class PortfolioStack extends Stack {
     });
 
     const edgeFn = new NodejsFunction(this, name("Function"), {
-      entry: "dist/server/lamda.js",
+      entry: "dist/server/lambda.js",
       handler: "handler",
       runtime: lambda.Runtime.NODEJS_18_X
     });
