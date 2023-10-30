@@ -47,11 +47,13 @@ export class PortfolioStack extends Stack {
       priceClass: cloudfront.PriceClass.PRICE_CLASS_100,
       httpVersion: cloudfront.HttpVersion.HTTP2_AND_3,
       defaultBehavior: {
-        origin: new origins.HttpOrigin(Fn.select(2, Fn.split("/", funcUrl.url)))
+        origin: new origins.HttpOrigin(Fn.select(2, Fn.split("/", funcUrl.url))),
+        cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED
       },
       additionalBehaviors: {
         "/assets/*": {
-          origin: new origins.S3Origin(bucket)
+          origin: new origins.S3Origin(bucket),
+          cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED
         }
       }
     });
