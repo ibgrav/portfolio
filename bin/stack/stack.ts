@@ -1,9 +1,8 @@
 import { join } from "path";
 import type { Construct } from "constructs";
-import { CfnOutput, Fn, RemovalPolicy, Stack, aws_route53_targets as targets } from "aws-cdk-lib";
+import { Fn, RemovalPolicy, Stack, aws_route53_targets as targets } from "aws-cdk-lib";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as lambda from "aws-cdk-lib/aws-lambda";
-import * as api from "aws-cdk-lib/aws-apigateway";
 import * as route53 from "aws-cdk-lib/aws-route53";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront";

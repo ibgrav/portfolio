@@ -1,9 +1,10 @@
-import { Hono } from "hono";
+import { Hono } from "hono/quick";
 import type { Manifest } from "vite";
 import type { ApiGatewayRequestContext } from "hono/aws-lambda";
-import { document } from "./document";
+import { renderServer } from "../render/render.server";
 
 type Bindings = {
+  manifest: Manifest;
   requestContext?: ApiGatewayRequestContext;
 };
 
@@ -12,11 +13,11 @@ interface ServerProps {
 }
 
 export function createServer({ manifest }: ServerProps) {
-  const server = new Hono<{ Bindings: Bindings }>();
+  const server = new Hono<{ Bindings: Bindings }>({ strict: false });
 
-  server.get("/debug", (c) => c.json(c));
+  server.get("/debug", (ctx) => ctx.json(ctx));
 
-  server.get("/", (c) => c.html(document(manifest)));
+  server.get("*", () => renderServer({ manifest }));
 
   return server;
 }

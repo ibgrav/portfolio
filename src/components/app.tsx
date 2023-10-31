@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { Suspense, lazy } from "react";
+
+const Button = lazy(() => import("./button"));
 
 export function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <main>
       <h1>Hello, World!</h1>
-      <button onClick={() => setCount((c) => ++c)}>{count}</button>
+      <Suspense>
+        <Button />
+      </Suspense>
     </main>
   );
 }
