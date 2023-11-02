@@ -1,3 +1,5 @@
+import "./app.scss";
+
 import { Suspense, lazy } from "react";
 
 const Button = lazy(() => import("./button"));

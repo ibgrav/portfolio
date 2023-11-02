@@ -17,7 +17,7 @@ export async function renderServer({ manifest }: RenderServerProps) {
     <StrictMode>
       <Document />
     </StrictMode>,
-    { bootstrapModules: script ? [script] : [] }
+    { bootstrapModules: script ? [`/${script}`] : [] }
   );
 
   return new Response(stream, {
