@@ -18,11 +18,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2
 
-      - run: echo "PNPM_STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
       - uses: actions/cache@v3
         with:
-          path: ${{ env.PNPM_STORE_PATH }}
+          path: ${{ env.PNPM_HOME }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/.npmrc') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-store-
 

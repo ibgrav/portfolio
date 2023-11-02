@@ -1,11 +1,19 @@
 import { ReactNode } from "react";
-import { App } from "./app";
+import { App } from "../components/app";
+import { Manifest } from "vite";
 
 type DocumentProps = {
+  manifest: Manifest;
   children?: ReactNode;
 };
 
-export function Document({}: DocumentProps) {
+export function Document({ manifest }: DocumentProps) {
+  let styles: string[] = [];
+
+  // Object.values(manifest).forEach(file => {
+  //   file.isDynamicEntry
+  // })
+
   return (
     <html>
       <head>

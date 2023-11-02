@@ -1,10 +1,15 @@
 import { hydrateRoot } from "react-dom/client";
 import { StrictMode } from "react";
-import { Document } from "../components/document";
+import { Document } from "./document";
+import { ComponentProvider } from "../component";
+
+const used: string[] = [];
 
 hydrateRoot(
   document,
   <StrictMode>
-    <Document />
+    <ComponentProvider used={used}>
+      <Document manifest={{}} />
+    </ComponentProvider>
   </StrictMode>
 );
